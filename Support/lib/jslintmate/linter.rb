@@ -11,8 +11,7 @@ module JSLintMate
       'undef' => false  # `true` if variables and functions need not be
                         # declared before use.
     }
-    JSC_PATH          = '/System/Library/Frameworks/' <<
-                        'JavaScriptCore.framework/Versions/A/Resources/jsc'
+    JSC_PATH          = '/usr/local/bin/node'
     LINT_REGEXP       = /^(Lint at line )(\d+)(.+?:)(.+?)\n(?:(.+?))?$/
     UNUSED_VAR_REGEXP = /^Unused variable at line (\d+): (.+?)$/
 
@@ -125,7 +124,7 @@ module JSLintMate
         adapter_options['--warn-about-unused-vars'] = true
       end
 
-      %{#{JSC_PATH} "#{self.path}" "#{adapter_path}" -- } <<
+      %{NODE_PATH="#{JSLintMate.lib_path}" #{JSC_PATH} "#{adapter_path}" } <<
         %{"$(cat "#{filepath}")" } <<
         jsc_adapter_command_options(adapter_options)
     end

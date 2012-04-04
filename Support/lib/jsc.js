@@ -26,10 +26,10 @@ Copyright (c) 2009 Apple Inc.
           white:    false */
 /*global  JSLINT, JSHINT */
 
-
+JSHINT = require("jshint").JSHINT;
 
 (function(args) {
-  var filename  = args[0],
+  var filename  = args[2],
       linter    = (typeof JSHINT !== 'undefined' ? JSHINT : JSLINT),
       options   = args.slice(1), // Array; all but first
       linterOptions = {},
@@ -146,13 +146,13 @@ Copyright (c) 2009 Apple Inc.
 
   // Check for JS code
   if (!filename) {
-    print('Usage: jsc (jslint|jshint).js jsc.js -- "$(cat myFile.js)"' +
+    console.log('Usage: jsc (jslint|jshint).js jsc.js -- "$(cat myFile.js)"' +
           ' [--linter-options-from-bundle=\'a:1,b:[2,3]\']' +
           ' [--linter-options-from-options-file=\'c:4,d:{e:5,f:6}\']' +
           ' [--linter-options-from-defaults=\'g:7\']' +
           ' [--warn-about-unused-vars=true|false]'
     );
-    quit(1);
+    process.exit(1);
   }
 
   // Run linter and fetch data
@@ -190,23 +190,23 @@ Copyright (c) 2009 Apple Inc.
         error = errors[i];
         if (error) {
           if (error.name) {
-            print('Unused variable at line ' + error.line + ': ' +
+            console.log('Unused variable at line ' + error.line + ': ' +
               error.name);
           } else {
-            print('Lint at line ' + error.line + ' character ' +
+            console.log('Lint at line ' + error.line + ' character ' +
               error.character + ': ' + error.reason);
-            print(error.evidence ?
+            console.log(error.evidence ?
               error.evidence.replace(stripRegexp, "$1") : '');
           }
 
-          print('');
+          console.log('');
         }
       }
     }());
 
-    quit(2);
+    process.exit(2);
   } else {
-    print('No problems found.');
-    quit();
+    console.log('No problems found.');
+    process.exit();
   }
-}(arguments));
+}(process.argv));
