@@ -12,8 +12,7 @@ module JSLintMate
       :jslint => { 'undef' => false },
       :jshint => { 'undef' => true }
     }.freeze
-    JSC_PATH          = '/System/Library/Frameworks/' <<
-                        'JavaScriptCore.framework/Versions/A/Resources/jsc'
+    JSC_PATH          = '/usr/local/bin/node'
     LINT_REGEXP       = /^(Lint at line )(\d+)(.+?:)(.+?)\n(?:(.+?))?$/
     UNUSED_VAR_REGEXP = /^Unused variable at line (\d+): (.+?)$/
 
@@ -128,7 +127,7 @@ module JSLintMate
         runner_options['--warn-about-unused-vars'] = true
       end
 
-      %{#{JSC_PATH} "#{self.path}" "#{runner_path}" -- } <<
+      %{NODE_PATH="#{JSLintMate.lib_path}" #{JSC_PATH} "#{runner_path}" } <<
         %{"$(cat "#{filepath}")" } <<
         runner_command_options(runner_options)
     end

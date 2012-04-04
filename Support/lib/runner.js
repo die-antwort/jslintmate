@@ -22,15 +22,16 @@
           white:    true */
 /*jshint  plusplus: false,
           white:    false */
-/*global  JSLINT, JSHINT */
+/*global  JSLINT, require, process */
+/*global  JSHINT: true */
 
-
+JSHINT = require("jshint").JSHINT;
 
 (function(args) {
   var Runner = {};
 
   Runner.init = function(args) {
-    var filename      = args[0],
+    var filename      = args[2],
         options       = args.slice(1), // Array; all but first
         linter        = (typeof JSHINT !== 'undefined' ? JSHINT : JSLINT),
         linterOptions = {},
@@ -39,7 +40,7 @@
     // Check for JS code
     if (!filename) {
       print(Runner.Util.usage());
-      quit(1);
+      process.exit(1);
     }
 
     // Run linter and fetch data
@@ -54,10 +55,10 @@
 
     if (linterData.errors || linterData.unused) {
       Runner.Lint.print(linter, linterData);
-      quit(2);
+      process.exit(2);
     } else {
-      print('No problems found.');
-      quit();
+      console.log('No problems found.');
+      process.exit();
     }
   };
 
@@ -176,14 +177,14 @@
       if (!error) { continue; }
 
       if (error.name) {
-        print('Unused variable at line ' + error.line + ': ' + error.name);
+        console.log('Unused variable at line ' + error.line + ': ' + error.name);
       } else {
-        print('Lint at line ' + error.line + ' character ' +
+        console.log('Lint at line ' + error.line + ' character ' +
           error.character + ': ' + error.reason);
-        print(error.evidence ? error.evidence.replace(stripRegexp, "$1") : '');
+        console.log(error.evidence ? error.evidence.replace(stripRegexp, "$1") : '');
       }
 
-      print(''); // New line
+      console.log(''); // New line
     }
   };
 
@@ -239,4 +240,4 @@
 
   Runner.init(args);
 
-}(arguments));
+}(process.argv));
