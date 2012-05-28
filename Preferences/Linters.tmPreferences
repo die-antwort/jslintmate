@@ -14,7 +14,7 @@
 				<key>name</key>
 				<string>TM_JSLINTMATE_DEFAULT_LINTER</string>
 				<key>value</key>
-				<string>jslint</string>
+				<string>jshint</string>
 			</dict>
 			<dict>
 				<key>name</key>
