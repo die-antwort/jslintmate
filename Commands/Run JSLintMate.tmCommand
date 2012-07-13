@@ -5,7 +5,10 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string># See "Options Files" to change where you
+	<string>#!/usr/bin/env bash
+[[ -f "${TM_SUPPORT_PATH}/lib/bash_init.sh" ]] &amp;&amp; . "${TM_SUPPORT_PATH}/lib/bash_init.sh"
+
+# See "Options Files" to change where you
 # keep your options, e.g., `~/.jslintrc`,
 # `$TM_PROJECT_DIRECTORY/config/jslint.yml`.
 #
@@ -14,19 +17,28 @@
 #
 # More info: http://rondevera.github.com/jslintmate/
 
-ruby "$TM_BUNDLE_SUPPORT/lib/jslintmate.rb"
+ruby "$TM_BUNDLE_SUPPORT/lib/jslintmate.rb" \
+  --linter=$TM_JSLINTMATE_DEFAULT_LINTER
 </string>
 	<key>input</key>
 	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>keyEquivalent</key>
 	<string>^l</string>
 	<key>name</key>
 	<string>Run JSLintMate</string>
-	<key>output</key>
-	<string>showAsHTML</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>html</string>
+	<key>outputLocation</key>
+	<string>newWindow</string>
 	<key>scope</key>
 	<string>source.js - source.js.embedded.html</string>
 	<key>uuid</key>
 	<string>2463023D-35B6-4DE2-8DC2-0E6AB47D9F36</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>
